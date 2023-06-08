@@ -19,7 +19,7 @@ from lookuptool import CsvLookupTool
 class ReadRetrieveReadApproach(Approach):
 
     template_prefix = \
-"You are an intelligent assistant helping Contoso Inc employees with their healthcare plan questions and employee handbook questions. " \
+"You are an intelligent assistant helping Contoso Inc employees with licensing, environmental information etc. for Small Nuclear Reactors (SMRs). " \
 "Answer the question using only the data provided in the information sources below. " \
 "For tabular information return it as an html table. Do not return markdown format. " \
 "Each source has a name followed by colon and the actual data, quote the source name for each piece of data you use in the response. " \
@@ -37,7 +37,7 @@ Question: {input}
 
 Thought: {agent_scratchpad}"""    
 
-    CognitiveSearchToolDescription = "useful for searching the Microsoft employee benefits information such as healthcare plans, retirement plans, etc."
+    CognitiveSearchToolDescription = "useful for searching for licensing, environmental information etc. for Small Nuclear Reactors (SMRs)."
 
     def __init__(self, search_client: SearchClient, openai_deployment: str, sourcepage_field: str, content_field: str):
         self.search_client = search_client
@@ -81,8 +81,6 @@ Thought: {agent_scratchpad}"""
                         func=lambda q: self.retrieve(q, overrides), 
                         description=self.CognitiveSearchToolDescription,
                         callbacks=cb_manager)
-        employee_tool = EmployeeInfoTool("Employee1", callbacks=cb_manager)
-        tools = [acs_tool, employee_tool]
 
         prompt = ZeroShotAgent.create_prompt(
             tools=tools,
@@ -102,18 +100,3 @@ Thought: {agent_scratchpad}"""
         result = result.replace("[CognitiveSearch]", "").replace("[Employee]", "")
 
         return {"data_points": self.results or [], "answer": result, "thoughts": cb_handler.get_and_reset_log()}
-
-class EmployeeInfoTool(CsvLookupTool):
-    employee_name: str = ""
-
-    def __init__(self, employee_name: str, callbacks: Callbacks = None):
-        super().__init__(filename="data/employeeinfo.csv", 
-                         key_field="name", 
-                         name="Employee", 
-                         description="useful for answering questions about the employee, their benefits and other personal information",
-                         callbacks=callbacks)
-        self.func = self.employee_info
-        self.employee_name = employee_name
-
-    def employee_info(self, unused: str) -> str:
-        return self.lookup(self.employee_name)
