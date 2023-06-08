@@ -9,11 +9,14 @@ export type ExampleModel = {
 
 const EXAMPLES: ExampleModel[] = [
     {
-        text: "What is included in my Northwind Health Plus plan that is not in standard?",
-        value: "What is included in my Northwind Health Plus plan that is not in standard?"
+        text: "What is the climate like in Oak Ridge?",
+        value: "What is the climate like in Oak Ridge?"
     },
-    { text: "What happens in a performance review?", value: "What happens in a performance review?" },
-    { text: "What does a Product Manager do?", value: "What does a Product Manager do?" }
+    {
+        text: "What are the projected population and growth rates for ROI Counties?",
+        value: "What are the projected population and growth rates for ROI Counties?"
+    },
+    { text: "What are the public education impacts?", value: "What are the public education impacts?" }
 ];
 
 interface Props {
