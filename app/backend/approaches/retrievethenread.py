@@ -57,7 +57,7 @@ Answer:
                                           query_type=QueryType.SEMANTIC, 
                                           query_language="en-us", 
                                           query_speller="lexicon", 
-                                          semantic_configuration_name="default", 
+                                          semantic_configuration_name="askit-semantic-config", 
                                           top=top, 
                                           query_caption="extractive|highlight-false" if use_semantic_captions else None)
         else:

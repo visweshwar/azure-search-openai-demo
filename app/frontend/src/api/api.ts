@@ -62,5 +62,5 @@ export async function chatApi(options: ChatRequest): Promise<AskResponse> {
 }
 
 export function getCitationFilePath(citation: string): string {
-    return `/content/${citation}`;
+    return `https://paychex.rightanswers.com/portal/app/portlets/results/viewsolution.jsp?solutionid=${citation}`;
 }
